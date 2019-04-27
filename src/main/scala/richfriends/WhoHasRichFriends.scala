@@ -35,8 +35,7 @@ object WhoHasRichFriends {
     //Find the friends with the cash value of Max
     val maxUsersDf = aggregated.filter(col("sum(cash)") === lit(maxCashRow(0)))
     maxUsersDf.explain()
-    val max1 = maxUsersDf.take(1)(0)
 
-    Seq(PersonWithFriendsCash(Person(max1(0).asInstanceOf[String]), BigDecimal.exact(max1(1).asInstanceOf[java.math.BigDecimal])))
+    maxUsersDf.collect.map(r => PersonWithFriendsCash(Person(r(0).asInstanceOf[String]), BigDecimal.exact(r(1).asInstanceOf[java.math.BigDecimal])))
   }
 }
